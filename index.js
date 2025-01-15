@@ -1,4 +1,4 @@
-import init, { Repl } from "./pkg/chess_bevy.js";
+import init, { Repl } from "./pkg/chess_bevy_lib.js";
 
 // Initialization
 (async () => {
