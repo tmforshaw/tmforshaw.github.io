@@ -1,2 +1,1 @@
-# tmforshaw.github.io
-My GitHub Pages Site
+A GitHub Pages portfolio, built using Jekyll
