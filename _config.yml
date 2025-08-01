@@ -58,7 +58,11 @@ collections:
     permalink: /projects/:name/
 
 exclude:
-- "*.gemspec"
-- LICENSE.md
-- CONTRIBUTING.md
-- README.md
+  - vendor/
+  - node_modules/
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE.md
+  - .gitignore
+  - .github/
