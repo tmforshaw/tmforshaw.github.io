@@ -10,7 +10,7 @@ street_address: 1234 Somewhere Road
 city: Newcastle Upon Tyne
 post_code: NE5
 country: United Kingdom
-phone: (012) 345-6789
+phone: +44 7166 2649
 
 # homepage tiles
 tiles-source: projects # accepts "posts" or "pages"

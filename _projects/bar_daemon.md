@@ -6,9 +6,18 @@ image: /assets/images/project1.jpg
 github: https://github.com/tmforshaw/project1
 ---
 <p>
-  A daemon which uses <code>UnixStream</code> sockets to monitor system resources.
-  It creates notifications via <code>dunstify</code> when resources change, as well as sending updates to all <code>UnixListener</code>, so they are always up to date.
+  A daemon which uses <code>tokio::UnixStream</code> sockets to monitor system resources.
+  It creates notifications via <code>dunstify</code> when resources change, as well as sending updates to all the <code>UnixListener</code> processes, so they are up to date without needing to wait for polling.
+	Default polling rate is <strong>1.5s</strong>, when each resource is updated or polled, the <em>entire</em> JSON for all resources is sent to all listeners.
 </p>
+
+<p>
+	The CLI for this application is written using <a href="https://docs.rs/clap/latest/clap/">Clap</a> (Command Line Argument Parser), so each command and subcommand can be followed by <code>help</code> to learn more about it.
+	Aliases are provided for all commands and subcommands, meaning they can be shortened.<br>
+	<code>bar_daemon&nbsp;g&nbsp;v&nbsp;p</code>&nbsp;&#8801;&nbsp;<code>bar_daemon&nbsp;get&nbsp;volume&nbsp;percent</code>
+</p>
+
+<hr class="major" />
 
 <h2>Monitored System Resources</h2>
 
@@ -42,12 +51,12 @@ github: https://github.com/tmforshaw/project1
 				<td>Battery</td>
 				<td><code>acpi</code></td>
 				<td>Used to get the current battery percentage, charging state, time remaining, and icon.</td>
-				<td>Yes, at 5%, 15%, 20%, 30%</td>
+				<td>Yes, at 5%, 15%, 20%, and 30%</td>
 				<td>Yes</td>
 			</tr>
 			<tr>
 				<td>Bluetooth</td>
-				<td><code>bluetooth</code> (<code>bluetoothctl</code>)</td>
+				<td><code>bluetooth</code><br>(<code>bluetoothctl</code>)</td>
 				<td>Used to get and set the bluetooth state, and the current icon.</td>
 				<td>Yes</td>
 				<td>No</td>
@@ -70,13 +79,15 @@ github: https://github.com/tmforshaw/project1
 	</table>
 </div>
 
+<hr class="major" />
+
 <h2>Usage</h2>
 <div class="table-wrapper">
   <table>
 		<thead>
 			<tr>
 				<th>Command</th>
-				<th>Output</th>
+				<th>Description</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -89,13 +100,68 @@ github: https://github.com/tmforshaw/project1
 				<td>Listens for changes in resources, and polled resources: receives JSON output of all resources on change.</td>
 			</tr>
 			<tr>
-				<td><code>bar_daemon&nbsp;get&nbsp;[COMMAND]</code></td>
-				<td>Receives all of the values for the given <code>COMMAND</code>, or all resources if none is supplied.</td>
+				<td><code>bar_daemon&nbsp;get&nbsp;[RESOURCE] [VALUE_TYPE]</code><br/>
+				<code>bar_daemon&nbsp;get&nbsp;volume&nbsp;percent</code><br/>
+				<code>bar_daemon&nbsp;get&nbsp;ram&nbsp;icon</code><br/>
+				<code>bar_daemon&nbsp;get&nbsp;brightness</code>
+				</td>
+				<td>Gets the value of the <strong>resource</strong>'s <strong>value_type</strong>, or all values for that <strong>resource</strong> if no <strong>value_type</strong> is supplied.
+				If no <strong>resource</strong> is provided, gets <strong>all</strong> values for <strong>all</strong> resources.</td>
 			</tr>
 			<tr>
-				<td><code>bar_daemon&nbsp;set&nbsp;&lt;COMMAND&gt;&nbsp;&lt;RESOURCE&gt;&nbsp;&lt;VALUE&gt;</code></td>
-				<td>Sets the value of a resource (e.g: volume)<code>COMMAND</code>, or all resources if none is supplied.</td>
+				<td><code>bar_daemon&nbsp;set&nbsp;&lt;RESOURCE&gt;&nbsp;&lt;VALUE_TYPE&gt;&nbsp;&lt;VALUE&gt;</code><br/>
+				<code>bar_daemon&nbsp;set&nbsp;volume&nbsp;percent&nbsp;-20</code><br/>
+				<code>bar_daemon&nbsp;set&nbsp;fan&nbsp;profile&nbsp;next</code><br/>
+				<code>bar_daemon&nbsp;set&nbsp;brightness&nbsp;monitor&nbsp;50</code><br/>
+				</td>
+				<td>Sets the value of the requested resource. For <code>brightness</code> and <code>volume</code> delta values can be provided.</td>
+			</tr>
+			<tr>
+				<td><code>bar_daemon&nbsp;update&nbsp;[RESOURCE]&nbsp;[VALUE_TYPE]</code><br/>
+				<code>bar_daemon&nbsp;update&nbsp;volume&nbsp;percent</code><br/>
+				<code>bar_daemon&nbsp;update&nbsp;fan</code><br/>
+				<code>bar_daemon&nbsp;update</code><br/>
+				</td>
+				<td>Equivalent to <code>set</code>, but doesn't explicitly change the value. Requests the value again and sends a message to all listeners (also creates a notification if value has changed).</td>
 			</tr>
 		</tbody>
 	</table>
+
+<hr class="major" />
+
+<h2>Log to Linear</h2>
+The volume is modified so that each percentage step <em>feels</em> like the same increase in volume, while keeping the range as [0-100].
+This fixes the issue where <code>pipewire</code> has imperceptible volume at low percentages, but unbearably high volume at high percentages.
+After trying various exponential values for the conversion between the perceptual volume and linear volume, I found that the best was actually <sup>1</sup>&frasl;<sub>2</sub>.
+<br>
+<br>
+
+<pre><code>#[must_use]
+pub fn linear_to_logarithmic(linear_percent: f64) -> f64 {
+    if linear_percent <= 0.0 {
+        return 0.0;
+    }
+
+    if linear_percent >= 100.0 {
+        return 100.0;
+    }
+
+    let normalized = linear_percent / 100.0;
+    100.0 * (normalized.sqrt())
+}
+
+#[must_use]
+pub fn logarithmic_to_linear(log_percent: f64) -> f64 {
+    if log_percent <= 0.0 {
+        return 0.0;
+    }
+
+    if log_percent >= 100.0 {
+        return 100.0;
+    }
+
+    let normalized = log_percent / 100.0;
+    100.0 * normalized.powi(2)
+}
+</code></pre>
 </div>
