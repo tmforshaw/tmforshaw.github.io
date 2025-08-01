@@ -12,7 +12,7 @@ Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris a
 
 {% for project in site.projects %}
 <div class="project">
-  <header class="minor">
+  <header class="major">
     <h3>
       <a href="{{ project.url }}"> {{ project.title }}</a>
     </h3>

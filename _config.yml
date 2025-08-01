@@ -3,7 +3,7 @@ title: Portfolio
 subtitle: by Tmforshaw
 email: tmforshaw@outlook.com
 description: My software development portfolio, built using Jekyll.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://tmforshaw.github.io"
 author: Tmforshaw
 street_address: 1234 Somewhere Road
