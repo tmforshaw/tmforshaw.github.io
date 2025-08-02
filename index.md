@@ -24,7 +24,14 @@ I enjoy exploring a broad range of topics, which leads me to discover lots of ne
   </header>
   <p>{{ project.description }}</p>
   <ul class="actions">
-    <li><a href="{{ project.url }}" class="button next">{{ project.title}}</a></li>
+    <li>
+      <a href="{{ project.github }}" class="button next">
+        <u>{{ project.title }}</u> on GitHub
+        <!-- TODO -->
+        <span class="icon alt fa-github" target="_blank" rel="noopener noreferrer" aria-label="github" style="text-align='center'"> <span class="label">GitHub</span></span>
+      </a>
+    </li>
   </ul>
+
 </div>
 {% endfor %}
