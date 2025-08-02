@@ -19,20 +19,37 @@
     <!-- One -->
     <section id="one">
       <div class="inner">
-        {% for project in site.projects %}
-        {% if project.title != 404 %}
+        {% if page.title != 404 %}
         <header class="major">
-          <h1><a href="{{ page.github }}"><span>{{ page.title }}</span></a></h1>
+          <h1>
+            {{ page.title }}
+          </h1>
         </header>
 
-        {% if project.image %}
-        <span class="image main"><img src="{{ project.image | absolute_url }}" alt="" /></span>
-        {% endif %}
+        <hr class="major">
 
-        {{ project.content }}
-        {% endif %}
-        {% endfor %}
-      </div>
+        <div class="inner">
+          {% for project in site.projects %}
+          {% if project.title != 404 %}
+          <header class="major">
+            <h1>
+              {% if project.github %}
+              <a href="{{ project.github }}"><span>{{ project.title }}</span></a>
+              {% else %}
+              {{ project.title }}
+              {% endif %}
+            </h1>
+          </header>
+
+          {% if project.image %}
+          <span class="image main"><img src="{{ project.image | absolute_url }}" alt="" /></span>
+          {% endif %}
+
+          {{ project.content }}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+        </div>
     </section>
 
   </div>
