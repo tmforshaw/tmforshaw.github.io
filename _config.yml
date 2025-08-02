@@ -3,7 +3,7 @@ title: Programming Projects
 subtitle: by Tmforshaw
 email: tmforshaw@outlook.com
 description: A portfolio of my programming projects, built using Jekyll with the Forty theme.
-baseurl: "/"
+baseurl: ""
 url: "https://tmforshaw.github.io"
 author: Tmforshaw
 street_address: 1234 Somewhere Road
