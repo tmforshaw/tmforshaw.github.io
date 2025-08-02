@@ -24,7 +24,9 @@
 				</header>
 
 				{% if page.image %}
+				{% if page.show-image %}
 				<span class="image main"><img src="{{ page.image | absolute_url }}" alt="" /></span>
+				{% endif %}
 				{% endif %}
 
 				{{ content }}

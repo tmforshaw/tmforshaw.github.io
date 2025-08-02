@@ -3,6 +3,7 @@ layout: project
 title: "Dotfile Templater"
 description: "A program which can act on code which is written within the comments of a config file to replace text within the config."
 image: /assets/images/dotfile_templater.png
+show-image: true
 github: https://github.com/tmforshaw/DotfilesTemplater
 nav-menu: true
 ---

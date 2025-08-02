@@ -3,6 +3,7 @@ layout: project
 title: "Bar Daemon"
 description: "A daemon to control and monitor system resources: sending updates to listeners when resources are changed."
 image: /assets/images/bar_daemon_code.png
+show-image: false
 github: https://github.com/tmforshaw/bar_daemon
 nav-menu: true
 ---
