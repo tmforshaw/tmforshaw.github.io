@@ -22,18 +22,14 @@
         {% for project in site.projects %}
         {% if project.title != 404 %}
         <header class="major">
-          <h1>{{ project.title }}</h1>
+          <h1><a href="{{ page.github }}"><span>{{ page.title }}</span></a></h1>
         </header>
 
         {% if project.image %}
-        <span class="image main"><img src="{{ site.baseurl }}/{{ project.image }}" alt="" /></span>
+        <span class="image main"><img src="{{ project.image | absolute_url }}" alt="" /></span>
         {% endif %}
 
-        {% if project.date %}
-        <p>{{ project.date | date: "%H:%M &nbsp&nbsp&nbsp&nbsp %A, %d %B, %Y" }}</p>
-        {% endif %}
-
-        <p>{{ project.content }}</p>
+        {{ project.content }}
         {% endif %}
         {% endfor %}
       </div>

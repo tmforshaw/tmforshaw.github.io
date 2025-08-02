@@ -2,8 +2,9 @@
 layout: project
 title: "Bar Daemon"
 description: "A daemon to control and monitor system resources: sending updates to listeners when resources are changed."
-image: /assets/images/project1.jpg
-github: https://github.com/tmforshaw/project1
+image: /assets/images/bar_daemon_code.png
+github: https://github.com/tmforshaw/bar_daemon
+nav-menu: true
 ---
 <p>
   A daemon which uses <code>tokio::UnixStream</code> sockets to monitor system resources.
@@ -16,6 +17,10 @@ github: https://github.com/tmforshaw/project1
 	Aliases are provided for all commands and subcommands, meaning they can be shortened.<br>
 	<code>bar_daemon&nbsp;g&nbsp;v&nbsp;p</code>&nbsp;&#8801;&nbsp;<code>bar_daemon&nbsp;get&nbsp;volume&nbsp;percent</code>
 </p>
+
+<div style="text-align: center">
+<image src="{{ 'assets/images/bar_daemon_in_action.png' | absolute_url }}" width="80%" title="bar_daemon in action"/>
+</div>
 
 <hr class="major" />
 
