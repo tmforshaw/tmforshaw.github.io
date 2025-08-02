@@ -1,14 +1,19 @@
 ---
 layout: home
 title: Home
-landing-title: 'Tmforshaw Portfolio'
+landing-title: 'Programming Projects'
 description: null
 image: null
 author: null
 show_tile: false
 ---
 
-Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.
+<header class="major">
+  <h2>Projects</h2>
+</header>
+
+A selection of the programming projects that I have created over the recent years.
+I enjoy exploring a broad range of topics, which leads me to discover lots of new and interesting problems to be solved.
 
 {% for project in site.projects %}
 <div class="project">

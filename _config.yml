@@ -1,9 +1,9 @@
-# site settings
+# Site settings
 title: Programming Projects
 subtitle: by Tmforshaw
 email: tmforshaw@outlook.com
-description: My software development portfolio, built using Jekyll.
-baseurl: "/" # the subpath of your site, e.g. /blog
+description: A portfolio of my programming projects, built using Jekyll with the Forty theme.
+baseurl: "/"
 url: "https://tmforshaw.github.io"
 author: Tmforshaw
 street_address: 1234 Somewhere Road
@@ -11,12 +11,13 @@ city: Newcastle Upon Tyne
 post_code: NE5
 country: United Kingdom
 phone: +44 7166 2649
+formspree: f/xqaldaqo
 
-# homepage tiles
-tiles-source: projects # accepts "posts" or "pages"
+# Homepage tiles
+tiles-source: projects
 tiles-count: 6
 
-# social settings (key must match name of font awesome icon)
+# Social settings (key must match name of font awesome icon)
 # see https://fontawesome.com/icons?d=gallery&p=2&s=brands
 # Icons are not shown if value is empty
 # You need to restart jekyll for changes to have an effect
@@ -30,28 +31,12 @@ socials:
   Facebook:
   Slack:
 
-# build settings
+# Build settings
 markdown: kramdown
-# highlighter: rouge
-# permalink: /:title/
-# paginate: 6
-
 sass:
   style: compressed
 
-
-# Navigation (header menu)
-navigation:
-  - title: "Home"
-    url: /
-  - title: "Projects"
-    url: /projects
-  - title: "About"
-    url: /about
-  - title: "Contact"
-    url: /contact
-
-# Collections (optional for projects)
+# Collections
 collections:
   projects:
     output: true
