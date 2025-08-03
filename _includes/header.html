@@ -14,12 +14,14 @@
 	<!-- Menu -->
 	<nav id="menu">
 		<ul class="links">
+			<!-- Home Button -->
 			{% for page in site.pages %}
 			{% if page.layout == "home" %}
 			<li><a href="{{ '' | absolute_url }}/" class="button special fit">{{ page.title }}</a></li>
 			{% endif %}
 			{% endfor %}
 
+			<!-- All Projects Button -->
 			{% assign all_pages = site.html_pages | concat: site.projects %}
 			{% for page in all_pages %}
 			{% if page.layout == "allprojects" and page.nav-menu == true %}
@@ -27,6 +29,7 @@
 			{% endif %}
 			{% endfor %}
 
+			<!-- All Other Pages Link -->
 			{% assign all_pages = site.html_pages | concat: site.projects %}
 			{% for page in all_pages %}
 			{% if page.layout != "home" and page.nav-menu == true and page.layout != "allprojects" %}
