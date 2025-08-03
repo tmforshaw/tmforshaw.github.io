@@ -16,19 +16,21 @@
 		<ul class="links">
 			{% for page in site.pages %}
 			{% if page.layout == "home" %}
-			<!-- <li><a href="{{ "" | absolute_url }}/">{{ page.title }}</a></li> -->
-			<li><a href="{{ "" | absolute_url }}/" class="button special fit">{{ page.title }}</a></li>
+			<li><a href="{{ '' | absolute_url }}/" class="button special fit">{{ page.title }}</a></li>
 			{% endif %}
 			{% endfor %}
 
 			{% assign all_pages = site.html_pages | concat: site.projects %}
 			{% for page in all_pages %}
-			{% if page.layout != "home" and page.nav-menu == true %}
-			{% if page.layout == "allprojects" %}
+			{% if page.layout == "allprojects" and page.nav-menu == true %}
 			<li><a href="{{ page.url | absolute_url }}" class="button fit">{{ page.title }}</a></li>
-			{% else %}
-			<li><a href="{{ page.url | absolute_url }}">{{ page.title }}</a></li>
 			{% endif %}
+			{% endfor %}
+
+			{% assign all_pages = site.html_pages | concat: site.projects %}
+			{% for page in all_pages %}
+			{% if page.layout != "home" and page.nav-menu == true and page.layout != "allprojects" %}
+			<li><a href="{{ page.url | absolute_url }}">{{ page.title }}</a></li>
 			{% endif %}
 			{% endfor %}
 		</ul>
