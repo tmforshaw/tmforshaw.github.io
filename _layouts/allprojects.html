@@ -42,7 +42,10 @@
           </header>
 
           {% if project.image %}
+          {% if project.show-image %}
+          <span class="image main"><img src="{{ page.image | absolute_url }}" alt="" /></span>
           <span class="image main"><img src="{{ project.image | absolute_url }}" alt="" /></span>
+          {% endif %}
           {% endif %}
 
           {{ project.content }}
