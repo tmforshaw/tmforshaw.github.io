@@ -10,7 +10,7 @@ nav-menu: true
 <p>
   A daemon which uses <code>tokio::UnixStream</code> sockets to monitor system resources.
   It creates notifications via <code>dunstify</code> when resources change, as well as sending updates to all the <code>UnixListener</code> processes, so they are up to date without needing to wait for polling.
-	Default polling rate is <strong>1.5s</strong>, when each resource is updated or polled, the <em>entire</em> JSON for all resources is sent to all listeners.
+	Default polling rate is <strong>2.0s</strong>, when each resource is updated or polled, the <em>entire</em> JSON for all resources is sent to all listeners.
 </p>
 
 <p>
@@ -26,6 +26,12 @@ nav-menu: true
 <hr class="major" />
 
 <h2>Monitored System Resources</h2>
+
+<p>
+	Each monitored resource is programmed using traits so they all implement <code>Monitored</code>, any polled resources implement <code>Polled</code>, and there's also a <code>Notify</code> trait which is implemented by all types, but without a definition of <code>notify()</code> no notification is sent.
+	The design for acquiring data is modular, such that, multiple sources can be separately implemented, e.g: instead of using <code>wpctl</code> for getting the volume, <code>pactl</code> could be implemented instead.
+	All the resources' code is split into <code>value.rs</code> and <code>source.rs</code>, so that the acquisition of data and the manipulating of data is done seperately (This means that nothing in <code>value.rs</code> will change when different sources are implemented.)
+</p>
 
 <div class="table-wrapper">
   <table>
@@ -121,14 +127,6 @@ nav-menu: true
 				<code>bar_daemon&nbsp;set&nbsp;brightness&nbsp;monitor&nbsp;50</code><br/>
 				</td>
 				<td>Sets the value of the requested resource. For <code>brightness</code> and <code>volume</code> delta values can be provided.</td>
-			</tr>
-			<tr>
-				<td><code>bar_daemon&nbsp;update&nbsp;[RESOURCE]&nbsp;[VALUE_TYPE]</code><br/>
-				<code>bar_daemon&nbsp;update&nbsp;volume&nbsp;percent</code><br/>
-				<code>bar_daemon&nbsp;update&nbsp;fan</code><br/>
-				<code>bar_daemon&nbsp;update</code><br/>
-				</td>
-				<td>Equivalent to <code>set</code>, but doesn't explicitly change the value. Requests the value again and sends a message to all listeners (also creates a notification if value has changed).</td>
 			</tr>
 		</tbody>
 	</table>
