@@ -4,7 +4,7 @@ title: "Chess Bevy"
 description: "A chess gui, written using a custom chess library which uses bitboards to represent the board state."
 image: /assets/images/chess_bevy.png
 show-image: true
-github: https://github.com/tmforshaw/ChessBevy
+link: https://github.com/tmforshaw/ChessBevy
 nav-menu: true
 ---
 

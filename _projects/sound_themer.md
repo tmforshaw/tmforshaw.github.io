@@ -4,7 +4,7 @@ title: "Sound Themer"
 description: "A program to play sounds from a configured sound theme based only on the name/keyword provided."
 image: /assets/images/sound_themer_code.png
 show-image: false
-github: https://github.com/tmforshaw/sound_themer
+link: https://github.com/tmforshaw/sound_themer
 nav-menu: true
 ---
 <p>

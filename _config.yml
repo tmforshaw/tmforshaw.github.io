@@ -6,9 +6,7 @@ description: A portfolio of my programming projects, built using Jekyll with the
 baseurl: ""
 url: "https://tmforshaw.github.io"
 author: Tmforshaw
-street_address: 1234 Somewhere Road
 city: Newcastle Upon Tyne
-post_code: NE5
 country: United Kingdom
 phone:
 formspree: f/xqaldaqo
