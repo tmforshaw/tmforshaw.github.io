@@ -44,7 +44,7 @@
           {% if project.image and project.show-image %}
           <span class="image main"><img src="{{ page.image | absolute_url }}" alt="" /></span>
           <span class="image main"><img src="{{ project.image | absolute_url }}" alt="" /></span>
-          {% else if project.video and project.show-video %}
+          {% elsif project.video and project.show-video %}
             {% include hover_video.html %}
           {% endif %}
 

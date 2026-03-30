@@ -25,7 +25,7 @@
 
 				{% if page.image and page.show-image %}
 					<span class="image main"><img src="{{ page.image | absolute_url }}" alt="" /></span>
-        {% else if page.video and page.show-video %}
+        {% elsif page.video and page.show-video %}
 					{% include hover_video.html %}
 				{% endif %}
 
