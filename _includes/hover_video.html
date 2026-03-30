@@ -1,0 +1,25 @@
+<div align="center">
+  <video
+    id="hover_video"
+    style="width: 100%; height: auto;"
+    loop
+    preload="metadata"
+    poster="{{ include.poster }}"
+
+    <source src="{{ include.src | default: page.video | default: project.video | absolute_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+		  document.querySelectorAll('.hover_video').forEach(video => {
+		    video.addEventListener('mouseenter', () => video.play());
+		    video.addEventListener('mouseleave', () => {
+		      video.pause();
+		      video.currentTime = 0;
+		    });
+		  });
+		});
+</script>
+</div>
+
