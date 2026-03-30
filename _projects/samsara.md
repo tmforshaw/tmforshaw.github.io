@@ -2,9 +2,8 @@
 layout: project
 title: "Samsara (Peacock Fan Mirror)"
 description: "An offhand item which I developed for an in-development game called Samsara."
-image: /assets/images/PeacockFanFeatheredMirror.png
-video: /assets/videos/PeacockFanMirrorGameplayWithOverlay.mp4
-show-video: true
+image: /assets/gifs/PeacockFanMirrorLong.gif
+show-image: true
 link: https://steamcommunity.com/app/1683570/
 nav-menu: true
 ---

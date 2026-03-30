@@ -2,7 +2,7 @@
 layout: project
 title: "Raymarch Bevy"
 description: "A Bevy program which utilises a fullscreen shader to display a ray-marched scene."
-image: /assets/images/raymarch_bevy_1.png
+image: /assets/gifs/RaymarchBevy.gif
 show-image: true
 link: https://github.com/tmforshaw/Raymarch-Bevy
 nav-menu: true
