@@ -6,6 +6,7 @@ image: /assets/images/dotfile_templater.png
 show-image: true
 link: https://github.com/tmforshaw/DotfilesTemplater
 nav-menu: true
+date: 06/06/2025
 ---
 
 A program which acts on a minimal templating language which can replace parts of the config, based on a provided pattern.

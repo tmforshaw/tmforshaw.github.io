@@ -6,6 +6,30 @@
 
 /* Banner */
 
+.banner-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Push text slightly right */
+.banner-text {
+  flex: 1;
+  margin-left: 2rem; /* adjust this to shift right */
+}
+
+/* Image styling */
+.banner-image {
+  flex: 0 0 250px; /* fixed width */
+}
+
+.banner-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%; /* optional: circular portrait */
+}
+
 #banner {
 	@include vendor('align-items', 'center');
 	@include vendor('background-image', 'url("../images/banner_2.png")');
@@ -23,6 +47,10 @@
 	min-height: 22em;
 	position: relative;
 	top: -3.25em;
+
+	text-shadow: 0 0 4px rgba(0,0,0,0.9),
+    0 0 10px rgba(0,0,0,0.7),
+    0 2px 4px rgba(0,0,0,0.8);
 
 	&:after {
 		@include vendor('transition', 'opacity #{_duration(banner)} ease');

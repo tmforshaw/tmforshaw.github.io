@@ -6,6 +6,7 @@ image: /assets/images/chess_bevy.png
 show-image: true
 link: https://github.com/tmforshaw/ChessBevy
 nav-menu: true
+date: 06/07/2025
 ---
 
 <h2><span><a href="https://github.com/tmforshaw/ChessBevy">Chess GUI</a></span></h2>

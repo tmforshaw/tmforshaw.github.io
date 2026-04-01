@@ -6,6 +6,7 @@ image: /assets/gifs/PeacockFanMirrorLong.gif
 show-image: true
 link: https://steamcommunity.com/app/1683570/
 nav-menu: true
+date: 27/03/2026
 ---
 <!-- image: /assets/images/bar_daemon_code.png -->
 <!-- show-image: true -->
@@ -35,6 +36,10 @@ nav-menu: true
 <hr class="minor" />
 
 <h3>Shield Material</h3>
+
+<div align="center">
+	<img src="{{ 'assets/images/PeacockFanMirrorShield.png' | absolute_url }}" alt="Fan Mirror Shield Ripples" height="600px">
+</div>
 
 <p>
 	There is a custom material which takes in an impact position and impact time which is passed to it when the shield hits a projectile.

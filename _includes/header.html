@@ -22,7 +22,7 @@
 			{% endfor %}
 
 			<!-- All Projects Button -->
-			{% assign all_pages = site.html_pages | concat: site.projects %}
+			{% assign all_pages = site.html_pages | concat: site.projects | sort: "date" | reverse %}
 			{% for page in all_pages %}
 			{% if page.layout == "allprojects" and page.nav-menu == true %}
 			<li><a href="{{ page.url | absolute_url }}" class="button fit">{{ page.title }}</a></li>

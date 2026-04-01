@@ -6,6 +6,8 @@
   -->
 <html>
 
+{% assign projects = site.projects | sort: "date" | reverse %}
+
 {% include head.html %}
 
 <body>
@@ -29,7 +31,7 @@
         <hr class="major">
 
         <div class="inner">
-          {% for project in site.projects %}
+          {% for project in projects %}
           {% if project.title != 404 %}
           <header class="major">
             <h1>

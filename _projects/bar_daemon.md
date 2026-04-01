@@ -6,6 +6,7 @@ image: /assets/images/bar_daemon_code.png
 show-image: false
 link: https://github.com/tmforshaw/bar_daemon
 nav-menu: true
+date: 01/03/2026
 ---
 <p>
   A daemon which uses <code>tokio::UnixStream</code> sockets to monitor system resources.

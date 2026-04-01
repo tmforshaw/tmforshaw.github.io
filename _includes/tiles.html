@@ -5,6 +5,9 @@
 {% elsif 'projects' == site.tiles-source %}
 {% assign tiles = site.projects | concat: site.html_pages | where_exp: "item", "item.show_tile != false" %}
 {% endif %}
+
+{% assign tiles = tiles | sort: "date" | reverse %}
+
 <section id="one" class="tiles">
   {% for tile in tiles limit:site.tiles-count %}
   <article>
