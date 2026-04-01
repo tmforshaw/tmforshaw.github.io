@@ -7,6 +7,9 @@ show-image: true
 link: https://github.com/tmforshaw/Raymarch-Bevy
 nav-menu: true
 date: 05/09/2025
+tools:
+  - Rust
+  - Bevy
 ---
 
 Using <code>Bevy</code>, a custom shader material is applied to a rectangular texture which is resized to the full screen size whenever the window is changed.

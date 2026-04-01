@@ -7,10 +7,11 @@ show-image: true
 link: https://steamcommunity.com/app/1683570/
 nav-menu: true
 date: 27/03/2026
+tools:
+  - Unreal Engine
+  - C++
+  - Blueprints
 ---
-<!-- image: /assets/images/bar_daemon_code.png -->
-<!-- show-image: true -->
-
 <p>
 	An offhand item which I implemented the functionality of, in the game Samsara, which is developed in Unreal Engine 5.
 	The item is called the Peacock Fan Mirror and it has the ability of projecting a shield infront of the player, which absorbs projectiles and converts the damage into charge, which is then used to create an AOE ability which heals allies and stuns enemies.

@@ -23,6 +23,9 @@
 					<h1><a href="{{ page.link }}"><span>{{ page.title }}</span></a></h1>
 				</header>
 
+				<!-- Tools -->
+				{% include tools.html tools=page.tools %}
+
 				{% if page.image and page.show-image %}
 					<span class="image main"><img src="{{ page.image | absolute_url }}" alt="" /></span>
         {% elsif page.video and page.show-video %}

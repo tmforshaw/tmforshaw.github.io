@@ -7,6 +7,8 @@ show-image: false
 link: https://github.com/tmforshaw/sound_themer
 nav-menu: true
 date: 30/02/2026
+tools:
+  - Rust
 ---
 <p>
 	A sound theming program which can play sounds from a given sound theme folder.

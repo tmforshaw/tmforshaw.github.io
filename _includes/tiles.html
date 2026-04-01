@@ -4,6 +4,7 @@
 {% assign tiles = site.html_pages | where_exp: "item", "item.show_tile != false" %}
 {% elsif 'projects' == site.tiles-source %}
 {% assign tiles = site.projects | concat: site.html_pages | where_exp: "item", "item.show_tile != false" %}
+{% assign page.tools = site.tools %}
 {% endif %}
 
 {% assign tiles = tiles | sort: "date" | reverse %}
@@ -16,6 +17,8 @@
     </span>
     <header class="major">
       <h3><a href="{{ tile.url  | relative_url }}" class="link">{{ tile.title }}</a></h3>
+			{% include tools.html tools=tile.tools %}
+      <hl>
       <p>{{ tile.description }}</p>
     </header>
   </article>

@@ -1,0 +1,24 @@
+{% assign tools = include.tools %}
+
+{% if tools %}
+  <div class="tools-list">
+    {% assign tool_images = "Rust|rust.svg,Tokio|tokio.svg,Unreal Engine|unreal_engine.svg,Blueprints|unreal_blueprint.png,C++|cpp.svg,Regex|regex.svg,Bevy|bevy.svg,UCI|uci.svg" | split: "," %}
+
+		{% for tool in tools %}
+      {% assign image_file = "" %}
+      {% for mapping in tool_images %}
+        {% assign parts = mapping | split: "|" %}
+        {% if parts[0] == tool %}
+          {% assign image_file = parts[1] %}
+        {% endif %}
+      {% endfor %}
+
+		<div class="tool-item">
+      {% if image_file != "" %}
+        <img src="{{ '/assets/images/tools/' | append: image_file | absolute_url }}" alt="{{ tool }}" width="60px"/>
+      {% endif %}
+      <span>{{ tool }}</span>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}

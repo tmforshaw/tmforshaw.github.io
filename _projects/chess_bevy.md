@@ -7,6 +7,10 @@ show-image: true
 link: https://github.com/tmforshaw/ChessBevy
 nav-menu: true
 date: 06/07/2025
+tools:
+  - Rust
+  - Bevy
+  - UCI
 ---
 
 <h2><span><a href="https://github.com/tmforshaw/ChessBevy">Chess GUI</a></span></h2>
