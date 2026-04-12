@@ -13,6 +13,10 @@ tools:
   - Blueprints
 ---
 <p>
+	This page is a work in progress...
+</p>
+
+<p>
 	An offhand item which I implemented the functionality of, in the game Samsara, which is developed in Unreal Engine 5.
 	The item is called the Peacock Fan Mirror and it has the ability of projecting a shield infront of the player, which absorbs projectiles and converts the damage into charge, which is then used to create an AOE ability which heals allies and stuns enemies.
 	I developed a custom material which creates a ripple on the surface of the shield where the latest projectile hit it.
@@ -44,7 +48,7 @@ tools:
 
 <p>
 	There is a custom material which takes in an impact position and impact time which is passed to it when the shield hits a projectile.
-	The <em>frequency</em>, <em>intensity</em>, <em>radius</em>, <em>colour</em>, and <em>lifetime</em> of the ripples are all customisable variables in the material.
+	The <strong>frequency</strong>, <strong>intensity</strong>, <strong>radius</strong>, <strong>colour</strong>, and <strong>lifetime</strong> of the ripples are all customisable variables in the material.
 	The ripples dissipate using an exponential falloff function.
 </p>
 
@@ -76,6 +80,6 @@ tools:
 
 <p>
 	Using the shield consumes a customm resource from the player, called Focus Points, it is a drain over time rather than a single reduction in focus.
-	The shield has a variable, <em>use_focus</em>, which enables the checks for focus, and the draining of it.
-	If the player doesn't have the required focus, and <em>use_focus</em> is enabled, a dialog appears indicating that there is not enough focus.
+	The shield has a variable, <strong>use_focus</strong>, which enables the checks for focus, and the draining of it.
+	If the player doesn't have the required focus, and <strong>use_focus</strong> is enabled, a dialog appears indicating that there is not enough focus.
 </p>
