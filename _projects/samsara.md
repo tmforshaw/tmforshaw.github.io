@@ -12,6 +12,21 @@ tools:
   - C++
   - Blueprints
 ---
+<head>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+		startOnLoad: true,
+		theme: "base",
+		themeVariables: {
+	    lineColor: "#00CCCC",
+			primaryColor: "#f8fafc",
+			primaryTextColor: "#111827",
+			primaryBorderColor: "#cbd5e1"
+	  }
+	});
+</script></head>
+
 <p>
 	Implemented the functionality for the Peacock-Feathered Fan Mirror, a defensive offhand weapon for Samsara in Unreal Engine 5.
 	The weapon projects a projectile-absorbing shield that converts blocked damage into stored charge, which can be spent on a directional area ability that heals allies and stuns enemies.
@@ -22,7 +37,7 @@ tools:
 
 <section>
 	<div>
-		<h2>Overview</h2>
+		<h2>Project Summary</h2>
 		<ul>
 			<li>Implemented an offhand weapon in Unreal Engine 5.</li>
 			<li>Created functionality for a projectile-absorbing shield which accumulates charge based on received damage.</li>
@@ -35,14 +50,50 @@ tools:
 <hr class="minor" />
 
 <div>
-	<h2>My Contibutions</h2>
+	<h2>My Contributions</h2>
 	<ul>
-		<li>Blueprint implementation of item's functionality</li>
+		<li>Blueprint implementation of item functionality.</li>
 		<li>Custom material shader development.</li>
 		<li>Animation/Action integration.</li>
-		<li>Audio event integration</li>
+		<li>Audio event integration.</li>
 		<li>Resource balancing and player feedback systems.</li>
 	</ul>
+</div>
+</section>
+
+<hr class="major" />
+
+<section>
+<h2>Flow Diagrams</h2>
+
+<div>
+	<h3>Projectile Collision With Shield</h3>
+	<pre class="mermaid" style="text-align: center;">
+	flowchart LR
+	A[Projectile Hits Shield] --> B[Destroy Projectile]
+	B --> C[Damage Converted to Charge]
+	C --> D[Shield Changes Colour]
+	D --> E[Data Given to Ripple Material]
+	A --> F[Player Performs Impact Animation]
+	F --> G[Shield Impact Sound Played]
+	</pre>
+</div>
+
+<hr class="minor" />
+
+<div>
+	<h3>AOE Ability Used</h3>
+	<pre class="mermaid" style="text-align: center;">
+	flowchart LR
+	A[Player Activates Ability] --> B[AOE Effect Active]
+	B --> C[Heal Allies]
+	C --> D[Stun Enemies]
+	D --> E{Exceeded Max Age?}
+	E -- No --> B
+	E -- Yes --> F[Destroy Effect]
+	A --> G[Player Performs Ability Animation]
+	G --> H[Ability Used Sound Played]
+	</pre>
 </div>
 </section>
 
@@ -75,7 +126,7 @@ tools:
 	<ul>
 		<li>Built a custom Unreal Engine material system, driven by projectile impact data.</li>
 		<li>Impact position and timestamp are passed to the material to generate ripple effects at the correct point on the shield's surface.</li>
-		<li>Ripple behaviour is fully parameterised, including: <strong>frequency</strong>, <strong>intensity</strong>, <strong>radius</strong>, <strong>colour</strong>, and <strong>lifetime</strong> </li>
+		<li>Ripple behaviour is fully parameterised, including: <strong>frequency</strong>, <strong>intensity</strong>, <strong>radius</strong>, <strong>colour</strong>, and <strong>lifetime</strong>.</li>
 		<li>Ripple fade-out is implemented using an exponential falloff for smooth dissipation.</li>
 		<li>Modular design so that (if necessary) multiple ripples could coexist simultaneously.</li>
 	</ul>
