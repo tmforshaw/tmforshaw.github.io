@@ -6,283 +6,115 @@ image: /assets/gifs/RaymarchBevy.gif
 show-image: true
 link: https://github.com/tmforshaw/Raymarch-Bevy
 nav-menu: true
-date: 05/09/2025
+date: 05/02/2026
 tools:
   - Rust
   - Bevy
 ---
 
-Using <code>Bevy</code>, a custom shader material is applied to a rectangular texture which is resized to the full screen size whenever the window is changed.
-The shader material accounts for the screen width, so textures are not stretched when differernt window sizes are provided, only the aspect ratio changes.
-
-There is a camera controller which can be moved with mouse and keyboard, and it includes moving faster when holding the shift key.
+<p>
+A ray-marching renderer built in <code>Rust</code> using <code>Bevy</code> and <code>WGSL</code> shaders.
+A custom fullscreen shader is used to replace the camera with an in-shader camera that performs ray marching to display the scene.
+Integrated with <code>eGUI</code> to allow for real-time modification of parameters at runtime.
+</p>
 
 <hr class="major"/>
 
-<h2>Shape Struct</h2>
+<section>
+<h2>Project Summary</h2>
+<ul>
+	<li>Built a real-time ray-marched 3D scene renderer using a fullscreen shader pipeline in <code>Bevy</code>.</li>
+	<li>Implemented responsive rendering that compensates for window rescaling to remove texture stretching.</li>
+	<li>Created a fly camera system which pans via mouse input, translates based on keyboard inputs, and includes sprint controls for faster movement.</li>
+	<li>Designed a modular shape system built using <strong>Signed Distance Functions</strong>, currently implemented for spheres, cubes, and planes.</li>
+	<li>Added smooth unions or boolean blending for combining <strong>SDFs</strong>, with configurable blending constants.</li>
+	<li>Implemented dynamic lighting, surface shading, and gamma correction in the fragment shader, consistent with the <strong>Phong</strong> shading model.</li>
+	<li>Built a custom ray-march loop with collision detection, outlines for near-misses, and a gradient sky background.</li>
+	<li>Structured shader data using Rust-side materials passed directly into <code>WGSL</code> uniforms.</li>
+	<li>Included development-build <code>eGUI</code> tooling to modify in-game data in real-time.</li>
+</ul>
+</section>
 
-<div class="table-wrapper">
-  <table>
-		<thead>
-			<tr>
-				<th>Shape Variable</th>
-				<th>Type</th>
-				<th>Possible values</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>shape_type</code></td>
-				<td><code>u32</code></td>
-        <td>
-          <div class="table-wrapper">
-            <table class="alt">
-          		<thead>
-          			<tr>
-          				<th>Value</th>
-          				<th>Meaning</th>
-          			</tr>
-          		</thead>
-          		<tbody>
-          			<tr>
-          				<td>1</td>
-          				<td>Sphere</td>
-          			</tr>
-          			<tr>
-          				<td>2</td>
-          				<td>Cube</td>
-          			</tr>
-          			<tr>
-          				<td>3</td>
-          				<td>Plane</td>
-          			</tr>
-          			<tr>
-          				<td>4</td>
-          				<td>Portal <strong>W.I.P</strong></td>
-          			</tr>
-          			<tr>
-          				<td>Other</td>
-          				<td>No Shape</td>
-          			</tr>
-          		</tbody>
-          	</table>
-          </div>
-        </td>
-				<td>Defines the type of shape which will be drawn.
-				Portals are currently not working, but the hope is that the rays will be able to traverse them as if they don't exist in the SDF, and will instead return the distance to the objects on the other side of the portal.</td>
-			</tr>
-			<tr>
-				<td><code>pos</code></td>
-				<td><code>Vec3&lt;f32&gt;</code></td>
-				<td>World-space position of this shape.</td>
-				<td>The position of this shape (Used to offset the SDF).</td>
-			</tr>
-			<tr>
-				<td><code>size</code></td>
-				<td><code>Vec3&lt;f32&gt;</code></td>
-				<td>Allows positive <code>f32</code> values. Negative values also sometimes work, but can lead to undefined behaviour.</td>
-				<td>The 3D scale of this shape (Used to scale the SDF).</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<hr class="minor"/>
 
-<hr/>
+<section>
+<h2>Technical Challenges</h2>
+<ul>
+	<li>Balancing of ray-march step count against rendering performance.</li>
+	<li>Maintaining visual quality while avoiding excessive shader calculations.</li>
+	<li>Preventing stretched output across varying window aspect ratios.</li>
+	<li>Ensuring stable camera controls with smooth rotation, while avoiding gimbal locking issues.</li>
+	<li>Passing structured data from <code>Rust</code> into the shader efficiently using uniforms, including dynamic shape data arrays.</li>
+</ul>
+</section>
 
-<h2>Shape Material</h2>
 
-<div class="table-wrapper">
-  <table>
-		<thead>
-			<tr>
-				<th>Material Variable</th>
-				<th>Type</th>
-				<th>Possible Values</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>shapes</code></td>
-        <td><code>Vec&lt;Shape&gt;</code></td>
-				<td>
-        </td>
-				<td>A vector with all the shapes which will be drawn in the scene.</td>
-			</tr>
-			<tr>
-				<td><code>union_type</code></td>
-        <td><code>u32</code></td>
-				<td>
-          <div class="table-wrapper">
-            <table class="alt">
-          		<thead>
-          			<tr>
-          				<th>Value</th>
-          				<th>Meaning</th>
-          			</tr>
-          		</thead>
-          		<tbody>
-          			<tr>
-          				<td>0</td>
-          				<td>Minimum</td>
-          			</tr>
-          			<tr>
-          				<td>other</td>
-          				<td>Maximum</td>
-          			</tr>
-          		</tbody>
-          	</table>
-          </div>
-        </td>
-				<td>Defines whether the shapes will be shown by taking the smooth minimum of all shapes, or the regular maximum.</td>
-			</tr>
-			<tr>
-				<td><code>smoothness_val</code></td>
-				<td><code>f32</code></td>
-				<td>Larger values mean that the shapes will be smoothed together from a greater distance. Negative values cause shapes to become inside out. </td>
-				<td>Used when the <strong>smooth minimum</strong> union_type is selected, combines the shapes by smoothing their SDFs.</td>
-			</tr>
-			<tr>
-				<td><code>light</code></td>
-				<td><pre><code>struct ShaderLight {
-  pos: Vec3&lt;f32&gt;,
-  colour: Vec3&lt;f32&gt;,
-}</code></pre></td>
-				<td>A starting position for the scene's light, and its colour in normalised [0-1] rgb values.</td>
-				<td>Defines the information about the scene's lighting, which will be used in the shader to adjust the colour of scene objects.</td>
-			</tr>
-			<tr>
-				<td><code>camera</code></td>
-				<td><pre><code>struct ShaderCamera {
-  pos: Vec3&lt;f32&gt;,
-  zoom: f32,
-  rotation: Vec4&lt;f32&gt;,
-  forward: Vec3&lt;f32&gt;,
-  right: Vec3&lt;f32&gt;,
-  up: Vec3&lt;f32&gt;,
-}
-</code></pre></td>
-				<td>
-					<code>pos</code> defines the world-space position of the camera.
-					Zoom defines the field of view.
-					<code>rotation</code> is a quaternion matrix.
-					<code>forward</code>, <code>right</code>, and <code>up</code> define the axes of the camera, and are all orthogonal.
-				</td>
-				<td>Provides information about the camera, which is rotated using mouse controls and translated using keyboard controls. The control scheme is a fly camera setup, similar to flying movement in many games.</td>
-			</tr>
-			<tr>
-				<td><code>time</code></td>
-				<td><code>f32</code></td>
-				<td>Values above 0.0</td>
-				<td>The amount of time (in seconds) which has elapsed since the rendering began.</td>
-			</tr>
-			<tr>
-				<td><code>shapes_len</code></td>
-				<td><code>u32</code></td>
-				<td>Positive Integers</td>
-				<td>The amount of shapes which will be rendered from the shapes <code>Vec</code>.</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<hr class="major"/>
 
-<hr class="major">
+<section>
+<h2>Rendering Pipeline</h2>
+<ul>
+	<li>A fullscreen quad rendered each frame.</li>
+	<li>Fragment shader casts a ray from the camera for each pixel.</li>
+	<li>Ray marches through the scene using <strong>Signed Distance Functions</strong>.</li>
+	<li>Closest hit point is shaded using normals and lighting, near-misses are highlighted and become outlines.</li>
+</ul>
+</section>
 
-<h2>Fragment Shader</h2>
+<hr class="major"/>
 
-The co-ordinates are scaled so that changing the aspect ratio of the window doesn't stretch the outputted image.
-The ray-marching loop is completed, and the resulting point which the ray has collided with is calculated.
-The lighting of the scene at this point is calculated, and the final colour is gamma corrected.
+<section>
+<h2>Shader Camera</h2>
+<ul>
+	<li>Replaced the traditional in-engine camera with an in-shader camera.</li>
+	<li>Calculated a ray direction, per-pixel, using screen-space coordinates and the calculated view frustum (based on camera parameters).</li>
+	<li>Implemented free-fly movement with keyboard translation across forward, right, and up axes of the camera.</li>
+	<li>Added mouse-look controls to rotate camera smoothly in real-time.</li>
+	<li>Camera rotations are stored and modified as quaternions to avoid gimbal lock.</li>
+	<li>Passed camera position, rotation, FOV, and basis vectors from <code>Rust</code> into <code>WGSL</code> uniforms on each frame.</li>
+	<li>Included sprint movement for faster scene navigation (Controlled via <emph>Shift</emph>).</li>
+	<li>Integrated camera parameters with the <code>eGUI</code> windows to allow real-time modification while the scene is running.</li>
+</ul>
+</section>
 
-<pre><code>@fragment
-fn fragment(in: VertexOutput) -&gt; @location(0) vec4&lt;f32&gt; {
-    let coords = centre_and_scale_uv_positions(in.position.xy, view.viewport.zw);
-    let camera_pos = material.camera.pos;
+<hr class="major"/>
 
-    let ray_dir = get_ray_dir(material.camera, coords);
-    let get_dist_input = GetDistanceInput(material.union_type, material.smoothness_val, material.time);
+<section>
+<h2>Shape System</h2>
+<ul>
+	<li>Scene geometry represented using modular <strong>Signed Distance Functions</strong> primitives.</li>
+	<li>Currently supports spheres, cubes, and planes.</li>
+	<li>New shapes can be added by implementing additional <strong>SDF</strong> definitions.</li>
+	<li>Each shape stores its position, scale, and colour, as well as its shape type (represented as an integer).</li>
+	<li>Shapes can be blended using smooth unions or combined using boolean operations.</li>
+	<li>Blending parameters are exposed at runtime and can be modified using the <code>eGUI</code> windows.</li>
+</ul>
+</section>
 
-    let ray_march_out = ray_march(camera_pos, ray_dir, get_dist_input);
+<hr class="major"/>
 
-    let point_on_surface: vec3&lt;f32&gt; = camera_pos + ray_dir * ray_march_out.dist;
-    let light_strength = get_light(point_on_surface, -ray_dir, material.light.pos, get_dist_input);
+<section>
+<h2>Lighting & Shading</h2>
+<ul>
+	<li>Surface normals are approximated from neighbouring SDF samples.</li>
+	<li>Phong-style lighting model used for the diffuse and specular shading.</li>
+	<li>Single dynamic light source with configurable position and colour.</li>
+	<li>Gamma correction applied before final colour output for improved colour accuracy.</li>
+	<li>Background rendered as a sky gradient when the ray didn't collide with any geometry.</li>
+	<li>Silhouette outlines are generated from near-miss ray distances.</li>
+	<li>Hard shadows are calculated to darken areas where the shapes block the light from the light source.</li>
+</ul>
+</section>
 
-    var colour: vec3&lt;f32&gt; = ray_march_out.object_colour * material.light.colour * light_strength;
+<hr class="major"/>
 
-    // Gamma correction
-    let gamma = 2.2;
-    colour = pow(colour, vec3&lt;f32&gt;(1.0 / gamma));
-
-    return vec4&lt;f32&gt;(colour, 1.0);
-}</code></pre>
-
-<hr>
-
-<h2>Ray March Loop</h2>
-
-The ray checks the distance to the closest object, and marches forward that distance, this continues until either the ray has collided with a shape, or the maximum distance/steps have been reached.
-The closest distance reached is remembered so that outlines can be given to pixels where the ray has missed the an object by a small amount.
-If the ray neither collided with a shape nor went sufficiently close to a shape, then a background colour, which is a mix of the sky and bottom sky colours centered at the horizon, is shown.
-
-<pre><code>fn ray_march(ray_origin: vec3&lt;f32&gt;, ray_dir: vec3&lt;f32&gt;, get_dist_input: GetDistanceInput) -&gt; RayMarchOutput {
-    var ray = Ray(ray_origin, ray_dir);
-
-    // Keep track of the minimum distance that the ray reached
-    var min_dist = max_dist;
-
-    var ray_dist = 0.;
-    var total_ray_dist = ray_dist;
-    var march_steps = 0;
-
-    while(total_ray_dist &lt; max_dist) {
-        march_steps++;
-
-        let dist_output = get_distance(ray.origin, get_dist_input);
-        var dist = dist_output.dist;
-        let object_col = dist_output.colour;
-        let shape_type = dist_output.shape_type;
-
-        // Set the minimum distance reached if this distance is smaller
-        if dist &lt; min_dist {
-            min_dist = dist;
-        }
-
-        // Exit the loop if we have traversed for too many iterations
-        if march_steps &gt; max_steps {
-            break;
-        }
-
-        // Have intersected something
-        if dist &lt;= epsilon {
-            // Intersected Portal
-            if shape_type == 4 {
-                ray.dir = vec3&lt;f32&gt;(0., 0., -1.);
-                ray.origin = vec3&lt;f32&gt;(2., 0., 2.) + ray_dir * 0.5;
-
-                min_dist = 0.15;
-                continue;
-                // return RayMarchOutput(vec3&lt;f32&gt;(0., 0., 1.), 1,0.001);
-            }
-
-            return RayMarchOutput(object_col, ray_dist, min_dist);
-        }
-
-        // Move the ray
-        ray.origin += ray.dir * dist;
-        ray_dist += dist;
-        total_ray_dist += dist;
-    }
-
-    // Draws an outline of shapes where the ray missed by only a small amount
-    if min_dist &lt; 0.1 {
-        return RayMarchOutput(vec3&lt;f32&gt;(1., 1., 1.), ray_dist, min_dist);
-    }
-
-    let sky_col = vec3&lt;f32&gt;(0.1, 0.2, 0.7);
-    let bottom_sky_col = vec3&lt;f32&gt;(0.3, 0.2, 0.5);
-
-    let background = mix(bottom_sky_col, sky_col,  (1.5 + dot(vec3&lt;f32&gt;(0.,1.,0.), ray.dir)));
-
-    return RayMarchOutput(background, ray_dist, min_dist);
-}</code></pre>
+<section>
+<h2>Future Improvements</h2>
+<ul>
+	<li>Portal rendering using non-linear ray traversal through <strong>SDF</strong> space.</li>
+	<li>Soft shadows, and ambient occlusion to improve realism of the rendering.</li>
+	<li>Multi-light support with extended material properties (roughness, emissiveness, etc).</li>
+	<li>Adaptive ray-march step optimisation based on scene complexity.</li>
+	<li>Additional SDF primitives: cylinders, capsules, and toruses.</li>
+</ul>
+</section>
