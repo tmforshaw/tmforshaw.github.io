@@ -7,4 +7,18 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="{{ "assets/css/ie9.css" | relative_url }}" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="{{ "assets/css/ie8.css" | relative_url }}" /><![endif]-->
 	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+
+	<script type="module">
+	  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+	  mermaid.initialize({
+			startOnLoad: true,
+			theme: "base",
+			themeVariables: {
+		    lineColor: "#00CCCC",
+				primaryColor: "#f8fafc",
+				primaryTextColor: "#111827",
+				primaryBorderColor: "#cbd5e1"
+		  }
+		});
+	</script>
 </head>

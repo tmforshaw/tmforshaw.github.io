@@ -12,21 +12,6 @@ tools:
   - C++
   - Blueprints
 ---
-<head>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({
-		startOnLoad: true,
-		theme: "base",
-		themeVariables: {
-	    lineColor: "#00CCCC",
-			primaryColor: "#f8fafc",
-			primaryTextColor: "#111827",
-			primaryBorderColor: "#cbd5e1"
-	  }
-	});
-</script></head>
-
 <p>
 	Implemented the functionality for the Peacock-Feathered Fan Mirror, a defensive offhand weapon for Samsara in Unreal Engine 5.
 	The weapon projects a projectile-absorbing shield that converts blocked damage into stored charge, which can be spent on a directional area ability that heals allies and stuns enemies.
