@@ -11,6 +11,7 @@ tools:
   - Rust
   - Bevy
 ---
+<!-- date: 05/09/2025 -->
 
 <p>
 A ray-marching renderer built in <code>Rust</code> using <code>Bevy</code> and <code>WGSL</code> shaders.
