@@ -122,6 +122,9 @@ tools:
 
 <section>
 	<h2>Amrita Area (AOE Ability)</h2>
+	<div align="center">
+		<img src="{{ 'assets/gifs/AmritaArea.gif' | absolute_url }}" alt="Amrita Area in Editor" width="100%">
+	</div>
 	<ul>
 		<li>Developed a cone-shaped area ability which can be triggered when shield charge is at or above 50% of its maximum charge.</li>
 		<li>The specified amount of shield charge is consumed when the ability is used.</li>
