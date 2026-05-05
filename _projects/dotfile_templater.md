@@ -6,7 +6,7 @@ image: /assets/images/dotfile_templater.png
 show-image: true
 link: https://github.com/tmforshaw/DotfilesTemplater
 nav-menu: true
-date: 06/06/2025
+date: 2025-06-06
 tools:
   - Rust
   - Regex

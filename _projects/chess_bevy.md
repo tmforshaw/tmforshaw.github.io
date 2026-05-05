@@ -6,7 +6,7 @@ image: /assets/images/chess_bevy.png
 show-image: true
 link: https://github.com/tmforshaw/ChessBevy
 nav-menu: true
-date: 06/03/2026
+date: 2026-03-06
 tools:
   - Rust
   - Bevy

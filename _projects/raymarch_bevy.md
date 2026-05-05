@@ -6,7 +6,7 @@ image: /assets/gifs/RaymarchBevy.gif
 show-image: true
 link: https://github.com/tmforshaw/Raymarch-Bevy
 nav-menu: true
-date: 05/03/2026
+date: 2026-03-05
 tools:
   - Rust
   - Bevy

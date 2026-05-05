@@ -6,7 +6,7 @@ image: /assets/gifs/PeacockFanMirrorLong.gif
 show-image: true
 link: https://steamcommunity.com/app/1683570/
 nav-menu: true
-date: 27/03/2026
+date: 2026-03-27
 tools:
   - Unreal Engine
   - C++

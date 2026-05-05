@@ -6,7 +6,7 @@ image: /assets/images/sound_themer_code.png
 show-image: false
 link: https://github.com/tmforshaw/sound_themer
 nav-menu: true
-date: 30/02/2026
+date: 2026-03-02
 tools:
   - Rust
 ---
