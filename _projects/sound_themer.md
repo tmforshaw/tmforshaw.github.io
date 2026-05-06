@@ -10,65 +10,169 @@ date: 2026-03-02
 tools:
   - Rust
 ---
-<p>
-	A sound theming program which can play sounds from a given sound theme folder.
-	Configured using <a href="https://docs.rs/clap/latest/toml/">TOML</a>, allows for different themes to have different internal file structures and sound file extensions, as well as have sounds named differently (the mapping between keywords and sound file names is changed in the config).
-	The intended use case is to provide sounds for system notifications, which differ based on the type of notification.
-</p>
+<section>
+<h2>Project Summary</h2>
+<ul>
+	<li>Built a configurable <strong>CLI</strong> tool for playing themed system sounds based on keyword input.</li>
+	<li>Decouples <strong>sound naming</strong> from <strong>file structure</strong>, enabling a single interface across multiple themes.</li>
+	<li>Designed for integration with <strong>system notifications</strong> and automation workflows.</li>
+</ul>
+</section>
 
-<p>
-	The CLI for this application is written using <a href="https://docs.rs/clap/latest/clap/">Clap</a> (Command Line Argument Parser), so each command and subcommand can be followed by <code>help</code> to learn more about it.
-	Aliases are provided for all commands, meaning they can be shortened.<br>
-	<code>sound_themer&nbsp;p&nbsp;audio-change</code>&nbsp;&#8801;&nbsp;<code>sound_themer&nbsp;play&nbsp;audio-change</code>&nbsp;&#8801;&nbsp;<code>sound_themer&nbsp;play&nbsp;audio-volume-change</code>
-</p>
+<hr class="minor">
 
-<hr class="major" />
+<section>
+<h2>Technical Challenges</h2>
+<ul>
+	<li>Abstracting over <strong>inconsistent filesystem layouts</strong> across themes.</li>
+	<li>Designing a flexible mapping system without ambiguity.</li>
+	<li>Maintaining a simple <strong>CLI</strong> without compromising high configurability.</li>
+	<li>Handling multiple file extensions and nested directories efficiently.</li>
+</ul>
+</section>
 
-<h2>Usage</h2>
-<div class="table-wrapper">
-  <table>
-		<thead>
-			<tr>
-				<th>Command</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>
-					<code>sound_themer&nbsp;play&nbsp;&lt;SOUND_NAME&gt;</code><br/>
-					<code>sound_themer&nbsp;p&nbsp;&lt;SOUND_NAME&gt;</code>
-				</td>
-				<td>Plays a sound from the theme folder, mapping from <strong>sound_name</strong> to its associated value for this theme (if one exists).</td>
-			</tr>
-			<tr>
-				<td>
-					<code>sound_themer&nbsp;list</code><br/>
-					<code>sound_themer&nbsp;ls</code>
-				</td>
-				<td>Lists the sound files in the currently selected theme's folder.</td>
-			</tr>
-			<tr>
-				<td>
-					<code>sound_themer&nbsp;--&#8288;theme&nbsp;&lt;THEME_NAME&gt;&nbsp;&lt;COMMAND&gt;</code><br/>
-					<code>sound_themer&nbsp;-t&nbsp;&lt;THEME_NAME&gt;&nbsp;&lt;COMMAND&gt;</code><br/>
-				</td>
-				<td>Overrides the theme which is selected in <code>config.toml</code></td>
-			</tr>
-		</tbody>
-	</table>
+<hr class="major">
 
-<hr class="major" />
+<section>
+<h2>Core Design</h2>
+<ul>
+	<li>Keyword-driven playback system:
+		<ul>
+			<li><code>sound_themer play &lt;KEYWORD&gt;</code> resolves to a mapped sound file.</li>
+			<li>Falls back to direct filename matching if no mapping exists.</li>
+		</ul>
+	</li>
+	<li>Theme Abstraction Layer:
+		<ul>
+			<li>Each theme defines its own directory structure, file extensions, and naming scheme.</li>
+			<li>Ensures consistent <strong>CLI</strong> usage across incompatible sound packs.</li>
+		</ul>
+	</li>
+	<li>Runtime Flexibility:
+		<ul>
+			<li>Themes can be overridden via <strong>CLI</strong> flags without modifying the config.</li>
+		</ul>
+	</li>
+</ul>
+</section>
 
-<h2>Config</h2>
-<p>
-	The configuration is in <a href="https://docs.rs/clap/latest/toml/">TOML</a>, and allows for setting a <code>theme_name</code>, along with defining how each theme works.
-	Inner directories of the theme folder can be provided, along with the extension for sound files in this theme.
-	Mapping keyword values to their file name counterparts is also configured here, allowing for using the same commands to play sounds from any theme.
-	If the provided keyword doesn't exist in the mapping, the program will attempt to play a sound from the theme matching the provided keyword with no mapping.
-</p>
+<hr class="major">
 
-<pre><code># Name of the selected sound theme
+<section>
+<h2>Configuration System</h2>
+<ul>
+	<li>Uses <code>TOML</code> for human-readable, extensible configuration.</li>
+	<li>Defines:
+		<ul>
+			<li>Active theme.</li>
+			<li>Theme directories and file extensions.</li>
+			<li>Keyword &rarr; filename mappings.</li>
+		</ul>
+	</li>
+	<li>Supports:
+		<ul>
+			<li>Nested directory structures.</li>
+			<li>Non-uniform naming conventions across sound themes.</li>
+		</ul>
+	</li>
+	<li>Mapping system enables:
+		<ul>
+			<li>Normalisation of inconsistent naming.</li>
+			<li>Reuse of the same commands across all themes.</li>
+		</ul>
+	</li>
+</ul>
+</section>
+
+<hr class="major">
+
+<section>
+<h2>Command Line Interface</h2>
+<ul>
+	<li>Built using <a href="https://docs.rs/clap/latest/clap/"><code>Clap</code></a> for structured command parsing.</li>
+	<li>Supports:
+		<ul>
+			<li>Subcommands with built-in help output.</li>
+			<li>Command aliases (<code>play</code> &rarr; <code>p</code>, <code>list</code> &rarr; <code>ls</code>).</li>
+		</ul>
+	</li>
+	<li>Example usage:
+	  <table>
+			<thead>
+				<tr>
+					<th>Command</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<code>sound_themer&nbsp;play&nbsp;&lt;SOUND_NAME&gt;</code><br/>
+						<code>sound_themer&nbsp;p&nbsp;&lt;SOUND_NAME&gt;</code>
+					</td>
+					<td>
+						<ul>
+							<li>Plays a sound from the theme folder.</li>
+							<li>Maps from <code>SOUND_NAME</code> to its associated value in the selected theme (if one exists).</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<code>sound_themer&nbsp;list</code><br/>
+						<code>sound_themer&nbsp;ls</code>
+					</td>
+					<td>
+						<ul>
+							<li>Lists the sound files in the currently selected theme's folder.</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<code>sound_themer&nbsp;--&#8288;theme&nbsp;&lt;THEME_NAME&gt;&nbsp;&lt;COMMAND&gt;</code><br/>
+						<code>sound_themer&nbsp;-t&nbsp;&lt;THEME_NAME&gt;&nbsp;&lt;COMMAND&gt;</code><br/>
+					</td>
+					<td>
+						<ul>
+							<li>Overrides the theme which is selected in <code>config.toml</code>.</li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</li>
+</ul>
+</section>
+
+<hr class="major">
+
+<section>
+<h2>Extensibility</h2>
+<ul>
+	<li>New themes can be added without making code changes.</li>
+	<li>Configuration-driven design supports:
+		<ul>
+			<li>Custom keyword dictionaries.</li>
+			<li>Arbitrary directory layouts.</li>
+			<li>Additional sound formats.</li>
+		</ul>
+	</li>
+	<li>Suitable for integration with:
+		<ul>
+			<li>Window managers.</li>
+			<li>Notification systems.</li>
+			<li>Automation scripts.</li>
+		</ul>
+	</li>
+</ul>
+</section>
+
+<hr class="major">
+
+<section>
+<h2>Example Config</h2>
+<pre><code class="language-toml"># Name of the selected sound theme
 theme_name = "freedesktop"
 
 [[themes]]
@@ -100,4 +204,4 @@ mapping = {
   complete = "complete"
 }
 </code></pre>
-</div>
+</section>
