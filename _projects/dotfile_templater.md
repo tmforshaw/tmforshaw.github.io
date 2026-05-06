@@ -132,7 +132,7 @@ tools:
 			<tr>
 				<td><code>@replace&#8209;pattern&#8209;col</code></td>
 				<td><code>keyword</code>&nbsp;<code>pattern_2</code></td>
-				<td>Find first text which matches <code>#&#xFEFF;[&#xFEFF;A&#8209;Za&#8209;z&#xFEFF;\&#xFEFF;d&#xFEFF;]&#xFEFF;{&#xFEFF;6&#xFEFF;}</code>, then find first match within this match based on <code>pattern</code> and replace that with the <code>keyword</code>.</td>
+				<td>Find first text which matches <code>#&#xFEFF;[&#xFEFF;A&#8209;Za&#8209;z&#xFEFF;\&#xFEFF;d&#xFEFF;]&#xFEFF;{&#xFEFF;6&#xFEFF;}</code>, then find first match within this match based on <code>pattern_2</code> and replace that with the <code>keyword</code>.</td>
 			</tr>
 		</tbody>
 	</table>
